@@ -4,22 +4,22 @@ import TaskPriority from "./TaskPriority";
 import UpdateAndDeleteButton from "./UpdateAndDeleteButton";
 
 interface TaskCardProps {
-  card: ITask;
+  taskInfo: ITask;
 }
 
-const TaskCard = ({ card }: TaskCardProps) => {
+const TaskCard = ({ taskInfo }: TaskCardProps) => {
   return (
-    <div className="bg-white w-70 h-40 flex flex-col text-black rounded-xl p-5">
+    <div className="bg-white max-w-70 h-40 flex flex-col text-black rounded-xl p-5">
       <div className="flex justify-between mb-3">
-        <TaskPriority priority={card.priority} />
+        <TaskPriority priority={taskInfo.priority} />
         <UpdateAndDeleteButton />
       </div>
-      <div className="font-semibold flex-1">{card.title}</div>
+      <div className="font-semibold flex-1">{taskInfo.title}</div>
       <div className="flex text-gray-500 items-center gap-1 text-sm">
         <CalendarIcon className="size-5" />
-        <div>{card.startDate.toLocaleDateString()}</div>
+        <div>{taskInfo.startDate.toLocaleDateString()}</div>
         <span>-</span>
-        <div>{card.endDate.toLocaleDateString()}</div>
+        <div>{taskInfo.endDate.toLocaleDateString()}</div>
       </div>
     </div>
   );

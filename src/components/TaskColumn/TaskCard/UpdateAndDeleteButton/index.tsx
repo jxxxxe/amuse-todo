@@ -5,8 +5,18 @@ import {
 } from "@heroicons/react/16/solid";
 import { useState } from "react";
 import useClickAway from "../../../../hooks/useClickAway";
+import useTaskStore from "../../../../stores/useTaskStore";
 
-const UpdateAndDeleteButton = () => {
+interface UpdateAndDeleteButtonProps {
+  columnId: number;
+  taskId: number;
+}
+
+const UpdateAndDeleteButton = ({
+  columnId,
+  taskId,
+}: UpdateAndDeleteButtonProps) => {
+  const { deleteTask } = useTaskStore();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const popoverRef = useClickAway<HTMLDivElement>(() =>
     setIsPopoverOpen(false)
@@ -14,6 +24,10 @@ const UpdateAndDeleteButton = () => {
 
   const togglePopover = () => {
     setIsPopoverOpen((state) => !state);
+  };
+
+  const onDeleteButtonClick = () => {
+    deleteTask(columnId, taskId);
   };
 
   return (
@@ -30,7 +44,7 @@ const UpdateAndDeleteButton = () => {
             <PencilIcon className="size-5" />
             수정하기
           </button>
-          <button className="text-red-400 ">
+          <button onClick={onDeleteButtonClick} className="text-red-400 ">
             <TrashIcon className="size-5" />
             삭제하기
           </button>

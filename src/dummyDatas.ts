@@ -1,58 +1,70 @@
-import { ITask } from "./types/task";
+import { IColumn } from "./types/task";
 
-export const dummyTodoList: ITask[] = [
+export const initialColumns: IColumn[] = [
   {
-    title: "A프로젝트",
+    id: 1,
     state: "TO DO",
-    priority: 3,
-    memberList: ["James", "Mina"],
-    startDate: new Date(2025, 3, 15),
-    endDate: new Date(2025, 3, 30),
+    taskList: [
+      {
+        id: 1,
+        title: "A프로젝트",
+        priority: 3,
+        memberList: ["James", "Mina"],
+        startDate: new Date(2025, 3, 15),
+        endDate: new Date(2025, 3, 30),
+      },
+      {
+        id: 2,
+        title: "B프로젝트",
+        priority: 1,
+        memberList: ["Koon"],
+        startDate: new Date(2025, 3, 20),
+        endDate: new Date(2025, 4, 1),
+      },
+    ],
   },
   {
-    title: "B프로젝트",
-    state: "TO DO",
-    priority: 1,
-    memberList: ["Koon"],
-    startDate: new Date(2025, 3, 20),
-    endDate: new Date(2025, 4, 1),
-  },
-];
-
-export const dummyInProgressList: ITask[] = [
-  {
-    title: "C프로젝트",
+    id: 2,
     state: "IN PROGRESS",
-    priority: 3,
-    memberList: [],
-    startDate: new Date(2025, 3, 2),
-    endDate: new Date(2025, 3, 30),
+    taskList: [
+      {
+        id: 3,
+        title: "C프로젝트",
+        priority: 3,
+        memberList: [],
+        startDate: new Date(2025, 3, 2),
+        endDate: new Date(2025, 3, 30),
+      },
+      {
+        id: 4,
+        title: "D프로젝트",
+        priority: 2,
+        memberList: [],
+        startDate: new Date(2025, 3, 10),
+        endDate: new Date(2025, 5, 1),
+      },
+    ],
   },
   {
-    title: "D프로젝트",
-    state: "IN PROGRESS",
-    priority: 2,
-    memberList: [],
-    startDate: new Date(2025, 3, 10),
-    endDate: new Date(2025, 5, 1),
-  },
-];
-
-export const dummyDoneList: ITask[] = [
-  {
-    title: "E프로젝트",
+    id: 3,
     state: "DONE",
-    priority: 1,
-    memberList: [],
-    startDate: new Date(2025, 1, 15),
-    endDate: new Date(2025, 1, 30),
-  },
-  {
-    title: "F프로젝트",
-    state: "DONE",
-    priority: 3,
-    memberList: [],
-    startDate: new Date(2025, 2, 13),
-    endDate: new Date(2025, 3, 5),
+    taskList: [
+      {
+        id: 5,
+        title: "E프로젝트",
+        priority: 1,
+        memberList: [],
+        startDate: new Date(2025, 1, 15),
+        endDate: new Date(2025, 1, 30),
+      },
+      {
+        id: 6,
+        title: "F프로젝트",
+        priority: 3,
+        memberList: [],
+        startDate: new Date(2025, 2, 13),
+        endDate: new Date(2025, 3, 5),
+      },
+    ],
   },
 ];

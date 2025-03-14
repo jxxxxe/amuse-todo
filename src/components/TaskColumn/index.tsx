@@ -12,8 +12,17 @@ interface ColumnProps {
 }
 
 const StateColumn = ({ columnInfo, searchWord }: ColumnProps) => {
-  const [searchedTaskList, setSearchedTaskList] = useState(columnInfo.taskList);
+  const { id, state, taskList } = columnInfo;
+  const [searchedTaskList, setSearchedTaskList] = useState(taskList);
   const [isCardEditing, setIsCardEditing] = useState(false);
+
+  useEffect(() => {
+    const newList = taskList.filter((task) =>
+      task.title.toLowerCase().includes(searchWord)
+    );
+    setSearchedTaskList(newList);
+  }, [taskList, searchWord, columnInfo]);
+
   const onTaskAddButtonClick = () => {
     setIsCardEditing(true);
   };
@@ -21,25 +30,21 @@ const StateColumn = ({ columnInfo, searchWord }: ColumnProps) => {
   const onEditorClickAway = () => {
     setIsCardEditing(false);
   };
-
-  useEffect(() => {
-    const newList = columnInfo.taskList.filter((task) =>
-      task.title.toLowerCase().includes(searchWord)
-    );
-    setSearchedTaskList(newList);
-  }, [columnInfo.taskList, searchWord]);
-
   const editorRef = useClickAway<HTMLDivElement>(onEditorClickAway);
 
   return (
     <div className="flex flex-col gap-5 mt-5 w-full">
       <div className="flex justify-between text-gray-500 px-1">
-        <span className="text-sm">{columnInfo.state}</span>
-        <TaskSortButton columnId={columnInfo.id} />
+        <span className="text-sm">{state}</span>
+        <TaskSortButton columnId={id} />
       </div>
       <div className="flex flex-col gap-5">
-        {searchedTaskList.map((card, index) => (
-          <TaskCard key={`card-${columnInfo.state}-${index}`} taskInfo={card} />
+        {searchedTaskList.map((task, index) => (
+          <TaskCard
+            key={`card-${state}-${index}`}
+            columnId={columnInfo.id}
+            taskInfo={task}
+          />
         ))}
         {isCardEditing && <TaskCardEditor ref={editorRef} />}
       </div>

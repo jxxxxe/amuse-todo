@@ -35,54 +35,85 @@ const useTaskStore = create<TaskStore>((set) => ({
     }),
   sortTaskByName: (columnId) =>
     set(({ taskColumnList }) => {
-      const targetColumn = taskColumnList.find(
-        (column) => column.id === columnId
-      );
-      targetColumn?.taskList.sort((a, b) => {
-        if (a.title < b.title) {
-          return 1;
-        } else if (a.title > b.title) {
-          return -1;
+      const sortedColumn = taskColumnList.map((column) => {
+        if (column.id === columnId) {
+          const sortedTaskList = column?.taskList.sort((a, b) => {
+            if (a.title > b.title) {
+              return 1;
+            } else if (a.title < b.title) {
+              return -1;
+            } else {
+              return 0;
+            }
+          });
+
+          return {
+            ...column,
+            taskList: sortedTaskList,
+          };
         } else {
-          return 0;
+          return column;
         }
       });
       return {
-        taskColumnList,
+        taskColumnList: sortedColumn,
       };
     }),
   sortTaskByPriority: (columnId) =>
     set(({ taskColumnList }) => {
-      const targetColumn = taskColumnList.find(
-        (column) => column.id === columnId
-      );
-      targetColumn?.taskList.sort((a, b) => b.priority - a.priority);
+      const sortedColumn = taskColumnList.map((column) => {
+        if (column.id === columnId) {
+          const sortedTaskList = column?.taskList.sort(
+            (a, b) => b.priority - a.priority
+          );
+          return {
+            ...column,
+            taskList: sortedTaskList,
+          };
+        } else {
+          return column;
+        }
+      });
       return {
-        taskColumnList,
+        taskColumnList: sortedColumn,
       };
     }),
   sortTaskByStartDate: (columnId) =>
     set(({ taskColumnList }) => {
-      const targetColumn = taskColumnList.find(
-        (column) => column.id === columnId
-      );
-      targetColumn?.taskList.sort(
-        (a, b) => a.startDate.getTime() - b.startDate.getTime()
-      );
+      const sortedColumn = taskColumnList.map((column) => {
+        if (column.id === columnId) {
+          const sortedTaskList = column?.taskList.sort(
+            (a, b) => a.startDate.getTime() - b.startDate.getTime()
+          );
+          return {
+            ...column,
+            taskList: sortedTaskList,
+          };
+        } else {
+          return column;
+        }
+      });
       return {
-        taskColumnList,
+        taskColumnList: sortedColumn,
       };
     }),
   sortTaskByEndDate: (columnId) =>
     set(({ taskColumnList }) => {
-      const targetColumn = taskColumnList.find(
-        (column) => column.id === columnId
-      );
-      targetColumn?.taskList.sort(
-        (a, b) => a.endDate.getTime() - b.endDate.getTime()
-      );
+      const sortedColumn = taskColumnList.map((column) => {
+        if (column.id === columnId) {
+          const sortedTaskList = column?.taskList.sort(
+            (a, b) => a.endDate.getTime() - b.endDate.getTime()
+          );
+          return {
+            ...column,
+            taskList: sortedTaskList,
+          };
+        } else {
+          return column;
+        }
+      });
       return {
-        taskColumnList,
+        taskColumnList: sortedColumn,
       };
     }),
 }));

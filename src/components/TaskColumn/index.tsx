@@ -1,25 +1,19 @@
-import { useState } from "react";
-import { ITask, TaskStateType } from "../../types/task";
+import { useEffect, useState } from "react";
 import TaskAddButton from "./TaskAddButton";
 import TaskCard from "./TaskCard";
 import TaskSortButton from "./TaskSortButton";
 import TaskCardEditor from "../TaskCardEditor";
 import useClickAway from "../../hooks/useClickAway";
+import { IColumn } from "../../types/task";
 
 interface ColumnProps {
-  columnId: number;
-  stateTitle: TaskStateType;
-  initialCardList: ITask[];
+  columnInfo: IColumn;
+  searchWord: string;
 }
 
-const StateColumn = ({
-  columnId,
-  stateTitle,
-  initialCardList,
-}: ColumnProps) => {
-  const [cardList, setCardList] = useState(initialCardList);
+const StateColumn = ({ columnInfo, searchWord }: ColumnProps) => {
+  const [searchedTaskList, setSearchedTaskList] = useState(columnInfo.taskList);
   const [isCardEditing, setIsCardEditing] = useState(false);
-
   const onTaskAddButtonClick = () => {
     setIsCardEditing(true);
   };
@@ -28,17 +22,24 @@ const StateColumn = ({
     setIsCardEditing(false);
   };
 
+  useEffect(() => {
+    const newList = columnInfo.taskList.filter((task) =>
+      task.title.toLowerCase().includes(searchWord)
+    );
+    setSearchedTaskList(newList);
+  }, [columnInfo.taskList, searchWord]);
+
   const editorRef = useClickAway<HTMLDivElement>(onEditorClickAway);
 
   return (
     <div className="flex flex-col gap-5 mt-5 w-full">
       <div className="flex justify-between text-gray-500 px-1">
-        <span className="text-sm">{stateTitle}</span>
-        <TaskSortButton columnId={columnId} />
+        <span className="text-sm">{columnInfo.state}</span>
+        <TaskSortButton columnId={columnInfo.id} />
       </div>
       <div className="flex flex-col gap-5">
-        {cardList.map((card, index) => (
-          <TaskCard key={`card-${stateTitle}-${index}`} taskInfo={card} />
+        {searchedTaskList.map((card, index) => (
+          <TaskCard key={`card-${columnInfo.state}-${index}`} taskInfo={card} />
         ))}
         {isCardEditing && <TaskCardEditor ref={editorRef} />}
       </div>

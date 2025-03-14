@@ -1,22 +1,26 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
-import { FormEvent } from "react";
+import { ChangeEvent } from "react";
 
-const SearchBar = () => {
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+interface SearchBarProps {
+  onSearch: (word: string) => void;
+}
+
+const SearchBar = ({ onSearch }: SearchBarProps) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const searchWord = e.target.value;
+
+    onSearch(searchWord);
   };
 
   return (
-    <form
-      className="flex w-full max-w-[57rem] border-b border-b-gray-300 py-3 gap-2"
-      onSubmit={onSubmit}
-    >
+    <div className="flex w-full max-w-[57rem] border-b border-b-gray-300 py-3 gap-2">
       <MagnifyingGlassIcon className="size-6 " />
       <input
-        placeholder="Search"
+        onChange={onChange}
+        placeholder="할 일을 검색하세요"
         className="placeholder:text-gray-400 outline-none w-full"
       />
-    </form>
+    </div>
   );
 };
 

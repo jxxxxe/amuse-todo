@@ -3,8 +3,8 @@ import TaskAddButton from "./TaskAddButton";
 import TaskCard from "./TaskCard";
 import TaskSortButton from "./TaskSortButton";
 import TaskCardEditor from "../TaskCardEditor";
-import useClickAway from "../../hooks/useClickAway";
-import { IColumn } from "../../types/task";
+import { IColumn, ITask } from "../../types/task";
+import useTaskStore from "../../stores/useTaskStore";
 
 interface ColumnProps {
   columnInfo: IColumn;
@@ -12,43 +12,43 @@ interface ColumnProps {
 }
 
 const StateColumn = ({ columnInfo, searchWord }: ColumnProps) => {
-  const { id, state, taskList } = columnInfo;
-  const [searchedTaskList, setSearchedTaskList] = useState(taskList);
-  const [isCardEditing, setIsCardEditing] = useState(false);
+  const [viewedTaskList, setViewedTaskList] = useState(columnInfo.taskList);
+  const [isNewCardAdding, setIsNewCardAdding] = useState(false);
+  const { addTask } = useTaskStore();
+
+  const createCard = (newTask: ITask) => {
+    addTask(columnInfo.id, newTask);
+    setIsNewCardAdding(false);
+  };
 
   useEffect(() => {
-    const newList = taskList.filter((task) =>
+    const newList = columnInfo.taskList.filter((task) =>
       task.title.toLowerCase().includes(searchWord)
     );
-    setSearchedTaskList(newList);
-  }, [taskList, searchWord, columnInfo]);
+    setViewedTaskList(newList);
+  }, [searchWord, columnInfo.taskList]);
 
-  const onTaskAddButtonClick = () => {
-    setIsCardEditing(true);
-  };
-
-  const onEditorClickAway = () => {
-    setIsCardEditing(false);
-  };
-  const editorRef = useClickAway<HTMLDivElement>(onEditorClickAway);
+  useEffect(() => {
+    setViewedTaskList(columnInfo.taskList);
+  }, [columnInfo]);
 
   return (
     <div className="flex flex-col gap-5 mt-5 w-full">
       <div className="flex justify-between text-gray-500 px-1">
-        <span className="text-sm">{state}</span>
-        <TaskSortButton columnId={id} />
+        <span className="text-sm">{columnInfo.state}</span>
+        <TaskSortButton columnId={columnInfo.id} />
       </div>
       <div className="flex flex-col gap-5">
-        {searchedTaskList.map((task, index) => (
+        {viewedTaskList.map((task, index) => (
           <TaskCard
-            key={`card-${state}-${index}`}
+            key={`card-${columnInfo.state}-${index}`}
             columnId={columnInfo.id}
             taskInfo={task}
           />
         ))}
-        {isCardEditing && <TaskCardEditor ref={editorRef} />}
+        {isNewCardAdding && <TaskCardEditor saveCard={createCard} />}
       </div>
-      <TaskAddButton onClick={onTaskAddButtonClick} />
+      <TaskAddButton onClick={() => setIsNewCardAdding(true)} />
     </div>
   );
 };

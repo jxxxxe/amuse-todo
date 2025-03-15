@@ -10,11 +10,13 @@ import useTaskStore from "../../../../stores/useTaskStore";
 interface UpdateAndDeleteButtonProps {
   columnId: number;
   taskId: number;
+  changeCardToEditor: () => void;
 }
 
 const UpdateAndDeleteButton = ({
   columnId,
   taskId,
+  changeCardToEditor,
 }: UpdateAndDeleteButtonProps) => {
   const { deleteTask } = useTaskStore();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -24,6 +26,10 @@ const UpdateAndDeleteButton = ({
 
   const togglePopover = () => {
     setIsPopoverOpen((state) => !state);
+  };
+
+  const onUpdateButtonClick = () => {
+    changeCardToEditor();
   };
 
   const onDeleteButtonClick = () => {
@@ -40,7 +46,7 @@ const UpdateAndDeleteButton = ({
           ref={popoverRef}
           className="absolute w-25 top-full *:hover:bg-gray-100 divide-gray-100 divide-y flex *:p-2 *:flex *:gap-1 *:items-center flex-col rounded border border-gray-300 bg-white"
         >
-          <button>
+          <button onClick={onUpdateButtonClick}>
             <PencilIcon className="size-5" />
             수정하기
           </button>

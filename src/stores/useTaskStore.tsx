@@ -17,6 +17,25 @@ const useTaskStore = create<TaskStore>((set) => ({
         taskColumnList,
       };
     }),
+  updateTask: (columnId, cardId, newCardInfo) =>
+    set(({ taskColumnList }) => {
+      const newColumnList = taskColumnList.map((column) => {
+        if (column.id === columnId) {
+          return {
+            ...column,
+            taskList: column.taskList.map((task) =>
+              task.id === cardId ? newCardInfo : task
+            ),
+          };
+        } else {
+          return column;
+        }
+      });
+
+      return {
+        taskColumnList: newColumnList,
+      };
+    }),
   deleteTask: (columnId, taskId) =>
     set(({ taskColumnList }) => {
       const newColumnList = taskColumnList.map((column) => {
@@ -122,6 +141,7 @@ interface TaskStore {
   taskColumnList: IColumn[];
   setTaskColumnList: (newColumnList: IColumn[]) => void;
   addTask: (columnId: number, newTask: ITask) => void;
+  updateTask: (columnId: number, cardId: number, newCardInfo: ITask) => void;
   deleteTask: (columnId: number, taskId: number) => void;
   sortTaskByName: (columnId: number) => void;
   sortTaskByPriority: (columnId: number) => void;

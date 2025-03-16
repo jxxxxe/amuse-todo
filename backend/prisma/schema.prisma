@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  nickname      String    @unique
+  email         String    @unique
+  password      String
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  card_created  Card?     @relation("card_created")
+  card_assigned Card?     @relation("card_assigned", fields: [cardId], references: [id])
+  cardId        Int?
+  Comment       Comment[]
+}
+
+model Column {
+  id       Int    @id @default(autoincrement())
+  state    String @unique
+  cardList Card[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Card {
+  id          Int       @id @default(autoincrement())
+  title       String    @default("")
+  priority    Int       @default(1)
+  memberList  User[]    @relation("card_assigned")
+  description String    @default("")
+  commentList Comment[]
+  startDate   DateTime  @default(now())
+  endDate     DateTime  @default(now())
+
+  column    Column @relation(fields: [columnId], references: [id])
+  columnId  Int
+  creator   User   @relation("card_created", fields: [creatorId], references: [id])
+  creatorId Int    @unique
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Comment {
+  id      Int    @id @default(autoincrement())
+  content String
+  user    User   @relation(fields: [userId], references: [id])
+  userId  Int
+  card    Card   @relation(fields: [cardId], references: [id])
+  cardId  Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}

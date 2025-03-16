@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { IColumn, ITask } from "../types/task";
+import { IColumn, ITask } from "../types";
 
 const useTaskStore = create<TaskStore>((set) => ({
   taskColumnList: [],

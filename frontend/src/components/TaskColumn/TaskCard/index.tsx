@@ -1,5 +1,5 @@
 import { CalendarIcon } from "@heroicons/react/16/solid";
-import { ITask } from "../../../types/task";
+import { ITask } from "../../../types";
 import TaskPriority from "./TaskPriority";
 import UpdateAndDeleteButton from "./UpdateAndDeleteButton";
 import { useState } from "react";

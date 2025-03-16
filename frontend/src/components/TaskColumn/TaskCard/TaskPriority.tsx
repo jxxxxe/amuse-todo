@@ -1,4 +1,4 @@
-import { TaskPriorityType } from "../../../types/task";
+import { TaskPriorityType } from "../../../types";
 
 interface TaskPriorityProps {
   priority: TaskPriorityType;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TaskPriorityType } from "../../types/task";
+import { TaskPriorityType } from "../../types";
 
 interface EditorTaskPriorityProps {
   onChange: (priority: TaskPriorityType) => void;

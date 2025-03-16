@@ -3,7 +3,7 @@ import { NumberedListIcon } from "@heroicons/react/24/outline";
 import { ChangeEvent, useState } from "react";
 import EditorTaskPriority from "./EditorTaskPriority";
 import EditorCardCalendar from "./EditorCardCalendar";
-import { ITask, TaskPriorityType } from "../../types/task";
+import { ITask, TaskPriorityType } from "../../types";
 import useClickAway from "../../hooks/useClickAway";
 
 interface TaskCardEditor {

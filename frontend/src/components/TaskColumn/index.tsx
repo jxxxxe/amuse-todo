@@ -3,7 +3,7 @@ import TaskAddButton from "./TaskAddButton";
 import TaskCard from "./TaskCard";
 import TaskSortButton from "./TaskSortButton";
 import TaskCardEditor from "../TaskCardEditor";
-import { IColumn, ITask } from "../../types/task";
+import { IColumn, ITask } from "../../types";
 import useTaskStore from "../../stores/useTaskStore";
 
 interface ColumnProps {
@@ -22,7 +22,7 @@ const StateColumn = ({ columnInfo, searchWord }: ColumnProps) => {
   };
 
   useEffect(() => {
-    const newList = columnInfo.taskList.filter((task) =>
+    const newList = columnInfo.taskList?.filter((task) =>
       task.title.toLowerCase().includes(searchWord)
     );
     setViewedTaskList(newList);
@@ -39,7 +39,7 @@ const StateColumn = ({ columnInfo, searchWord }: ColumnProps) => {
         <TaskSortButton columnId={columnInfo.id} />
       </div>
       <div className="flex flex-col gap-5">
-        {viewedTaskList.map((task, index) => (
+        {viewedTaskList?.map((task, index) => (
           <TaskCard
             key={`card-${columnInfo.state}-${index}`}
             columnId={columnInfo.id}

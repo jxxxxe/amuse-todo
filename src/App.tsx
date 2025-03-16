@@ -15,7 +15,7 @@ function App() {
   }, [setTaskColumnList]);
 
   return (
-    <main className="flex my-0 p-5 items-center  flex-col bg-[#f2f7f8] h-full w-full">
+    <main className="flex my-0 p-5 items-center flex-col bg-[#f2f7f8] w-full h-fit min-h-screen">
       <SearchBar onSearch={onSearch} />
       <div className="flex gap-8 w-full justify-center max-w-[57rem]">
         {taskColumnList?.map((column) => (

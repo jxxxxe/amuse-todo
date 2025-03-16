@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { initialColumns } from "./dummyDatas";
 import SearchBar from "./components/SearchBar";
 import StateColumn from "./components/TaskColumn";
 import useTaskStore from "./stores/useTaskStore";
@@ -11,7 +10,9 @@ function App() {
   const onSearch = (word: string) => setSearchWord(word);
 
   useEffect(() => {
-    setTaskColumnList(initialColumns);
+    fetch("http://localhost:3001/api/column")
+      .then((res) => res.json())
+      .then((data) => setTaskColumnList(data));
   }, [setTaskColumnList]);
 
   return (

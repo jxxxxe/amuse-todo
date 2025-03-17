@@ -1,3 +1,4 @@
+import { ICard } from "@/app/types";
 import prisma from "@/app/utils/prisma";
 
 export async function GET() {
@@ -66,7 +67,7 @@ export async function PUT(req: Request) {
       data: {
         cardList: {
           deleteMany: {},
-          create: newCardList.map((card) => ({
+          create: newCardList.map((card: ICard) => ({
             id: card.id,
             title: card.title,
             priority: card.priority,

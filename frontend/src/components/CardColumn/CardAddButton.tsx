@@ -1,10 +1,10 @@
 import { PlusCircleIcon } from "@heroicons/react/16/solid";
 
-interface TaskAddButtonProps {
+interface CardAddButtonProps {
   onClick: () => void;
 }
 
-const TaskAddButton = ({ onClick }: TaskAddButtonProps) => {
+const CardAddButton = ({ onClick }: CardAddButtonProps) => {
   return (
     <button onClick={onClick} className="flex gap-2 items-center p-1">
       <PlusCircleIcon className="size-7 text-[#9dcfde]" />
@@ -13,4 +13,4 @@ const TaskAddButton = ({ onClick }: TaskAddButtonProps) => {
   );
 };
 
-export default TaskAddButton;
+export default CardAddButton;

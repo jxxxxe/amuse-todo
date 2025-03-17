@@ -1,58 +1,55 @@
 import { CalendarIcon, ItalicIcon } from "@heroicons/react/16/solid";
 import { NumberedListIcon } from "@heroicons/react/24/outline";
 import { ChangeEvent, useState } from "react";
-import EditorTaskPriority from "./EditorTaskPriority";
 import EditorCardCalendar from "./EditorCardCalendar";
-import { ITask, TaskPriorityType } from "../../types";
+import { ICard, CardPriorityType } from "../../types";
 import useClickAway from "../../hooks/useClickAway";
+import EditorCardPriority from "./EditorCardPriority";
 
-interface TaskCardEditor {
-  taskInfo?: ITask;
-  saveCard: (newCard: ITask) => void;
+interface CardEditor {
+  cardInfo?: ICard;
+  saveCard: (newCard: ICard) => void;
 }
 
-const defaultTaskInfo = {
+const defaultCardInfo = {
   id: Math.random(),
   title: "",
-  priority: 1 as TaskPriorityType,
+  priority: 1 as CardPriorityType,
   memberList: [],
   startDate: new Date(),
   endDate: new Date(),
 };
 
-const TaskCardEditor = ({
-  taskInfo = defaultTaskInfo,
-  saveCard,
-}: TaskCardEditor) => {
-  const [newTaskInfo, setNewTaskInfo] = useState(taskInfo);
+const CardEditor = ({ cardInfo = defaultCardInfo, saveCard }: CardEditor) => {
+  const [newCardInfo, setNewCardInfo] = useState(cardInfo);
 
   const onSaveNewCard = () => {
-    saveCard(newTaskInfo);
+    saveCard(newCardInfo);
   };
   const editorRef = useClickAway<HTMLDivElement>(onSaveNewCard);
 
   const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewTaskInfo((prev) => ({
+    setNewCardInfo((prev) => ({
       ...prev,
       title: e.target.value,
     }));
   };
-  const onChangePriority = (newPriority: TaskPriorityType) => {
-    setNewTaskInfo((prev) => ({
+  const onChangePriority = (newPriority: CardPriorityType) => {
+    setNewCardInfo((prev) => ({
       ...prev,
       priority: newPriority,
     }));
   };
 
   const onChangeStartDate = (newStartDate: Date) => {
-    setNewTaskInfo((prev) => ({
+    setNewCardInfo((prev) => ({
       ...prev,
       startDate: newStartDate,
     }));
   };
 
   const onChangeEndDate = (newEndDate: Date) => {
-    setNewTaskInfo((prev) => ({
+    setNewCardInfo((prev) => ({
       ...prev,
       endDate: newEndDate,
     }));
@@ -68,14 +65,14 @@ const TaskCardEditor = ({
         <input
           placeholder="제목"
           className="w-full border border-gray-200 p-1"
-          value={newTaskInfo.title}
+          value={newCardInfo.title}
           onChange={onChangeTitle}
         />
       </div>
       <div className="flex w-full">
         <NumberedListIcon className="size-5" />
-        <EditorTaskPriority
-          initialValue={newTaskInfo.priority}
+        <EditorCardPriority
+          initialValue={newCardInfo.priority}
           onChange={onChangePriority}
         />
       </div>
@@ -83,7 +80,7 @@ const TaskCardEditor = ({
         <CalendarIcon className="w-5" />
         <span className="text-gray-700">시작일</span>
         <EditorCardCalendar
-          initialDate={newTaskInfo.startDate}
+          initialDate={newCardInfo.startDate}
           onChange={onChangeStartDate}
         />
       </div>
@@ -91,13 +88,13 @@ const TaskCardEditor = ({
         <CalendarIcon className="w-5" />
         <span className="text-gray-700">종료일</span>
         <EditorCardCalendar
-          initialDate={newTaskInfo.endDate}
+          initialDate={newCardInfo.endDate}
           onChange={onChangeEndDate}
-          startDate={newTaskInfo.startDate}
+          startDate={newCardInfo.startDate}
         />
       </div>
     </div>
   );
 };
 
-export default TaskCardEditor;
+export default CardEditor;

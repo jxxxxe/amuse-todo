@@ -4,16 +4,16 @@ export const DEFAULT_COLUMN_LIST: IColumn[] = [
   {
     id: 1,
     state: "TO DO",
-    taskList: [],
+    cardList: [],
   },
   {
     id: 2,
     state: "IN PROGRESS",
-    taskList: [],
+    cardList: [],
   },
   {
     id: 3,
     state: "DONE",
-    taskList: [],
+    cardList: [],
   },
 ];

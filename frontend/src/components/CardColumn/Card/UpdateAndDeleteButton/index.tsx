@@ -5,20 +5,20 @@ import {
 } from "@heroicons/react/16/solid";
 import { useState } from "react";
 import useClickAway from "../../../../hooks/useClickAway";
-import useTaskStore from "../../../../stores/useTaskStore";
+import useCardStore from "../../../../stores/useCardStore";
 
 interface UpdateAndDeleteButtonProps {
   columnId: number;
-  taskId: number;
+  cardId: number;
   changeCardToEditor: () => void;
 }
 
 const UpdateAndDeleteButton = ({
   columnId,
-  taskId,
+  cardId,
   changeCardToEditor,
 }: UpdateAndDeleteButtonProps) => {
-  const { deleteTask } = useTaskStore();
+  const { deleteCard } = useCardStore();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const popoverRef = useClickAway<HTMLDivElement>(() =>
     setIsPopoverOpen(false)
@@ -33,7 +33,7 @@ const UpdateAndDeleteButton = ({
   };
 
   const onDeleteButtonClick = () => {
-    deleteTask(columnId, taskId);
+    deleteCard(columnId, cardId);
   };
 
   return (

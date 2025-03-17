@@ -1,29 +1,29 @@
 import { CalendarIcon } from "@heroicons/react/16/solid";
-import { ITask } from "../../../types";
-import TaskPriority from "./TaskPriority";
+import { ICard } from "../../../types";
+import CardPriority from "./CardPriority";
 import UpdateAndDeleteButton from "./UpdateAndDeleteButton";
 import { useState } from "react";
 import useClickAway from "../../../hooks/useClickAway";
-import TaskCardEditor from "../../TaskCardEditor";
-import useTaskStore from "../../../stores/useTaskStore";
+import CardEditor from "../../CardEditor";
+import useCardStore from "../../../stores/useCardStore";
 
-interface TaskCardProps {
+interface CardProps {
   columnId: number;
-  taskInfo: ITask;
+  cardInfo: ICard;
 }
 
-const TaskCard = ({ columnId, taskInfo }: TaskCardProps) => {
+const Card = ({ columnId, cardInfo }: CardProps) => {
   const [isCardUpdating, setIsCardUpdating] = useState(false);
   const cardRef = useClickAway<HTMLDivElement>(() => setIsCardUpdating(false));
-  const { updateTask } = useTaskStore();
+  const { updateCard } = useCardStore();
 
-  const updateCard = (updatedTask: ITask) => {
+  const updateCardToColumn = (updatedCard: ICard) => {
     setIsCardUpdating(false);
-    updateTask(columnId, taskInfo.id, updatedTask);
+    updateCard(columnId, cardInfo.id, updatedCard);
   };
 
   if (isCardUpdating) {
-    return <TaskCardEditor taskInfo={taskInfo} saveCard={updateCard} />;
+    return <CardEditor cardInfo={cardInfo} saveCard={updateCardToColumn} />;
   }
 
   return (
@@ -32,22 +32,22 @@ const TaskCard = ({ columnId, taskInfo }: TaskCardProps) => {
       className="bg-white max-w-70 h-40 flex flex-col text-black rounded-xl p-5"
     >
       <div className="flex justify-between mb-3">
-        <TaskPriority priority={taskInfo.priority} />
+        <CardPriority priority={cardInfo.priority} />
         <UpdateAndDeleteButton
           columnId={columnId}
-          taskId={taskInfo.id}
+          cardId={cardInfo.id}
           changeCardToEditor={() => setIsCardUpdating(true)}
         />
       </div>
-      <div className="font-semibold flex-1">{taskInfo.title}</div>
+      <div className="font-semibold flex-1">{cardInfo.title}</div>
       <div className="flex text-gray-500 items-center gap-1 text-sm">
         <CalendarIcon className="size-5" />
-        <div>{taskInfo.startDate.toLocaleDateString()}</div>
+        <div>{new Date(cardInfo.startDate).toLocaleDateString()}</div>
         <span>-</span>
-        <div>{taskInfo.endDate.toLocaleDateString()}</div>
+        <div>{new Date(cardInfo.endDate).toLocaleDateString()}</div>
       </div>
     </div>
   );
 };
 
-export default TaskCard;
+export default Card;

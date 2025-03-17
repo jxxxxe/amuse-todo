@@ -1,9 +1,9 @@
-import { TaskPriorityType } from "../../../types";
+import { CardPriorityType } from "../../../types";
 
-interface TaskPriorityProps {
-  priority: TaskPriorityType;
+interface CardPriorityProps {
+  priority: CardPriorityType;
 }
-const TaskPriority = ({ priority }: TaskPriorityProps) => {
+const CardPriority = ({ priority }: CardPriorityProps) => {
   const priorityClassNameList = [
     "text-gray-400  bg-gray-200",
     "text-green-600 bg-green-100",
@@ -20,4 +20,4 @@ const TaskPriority = ({ priority }: TaskPriorityProps) => {
   );
 };
 
-export default TaskPriority;
+export default CardPriority;

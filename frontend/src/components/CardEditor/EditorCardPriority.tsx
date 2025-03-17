@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { TaskPriorityType } from "../../types";
+import { CardPriorityType } from "../../types";
 
-interface EditorTaskPriorityProps {
-  onChange: (priority: TaskPriorityType) => void;
-  initialValue: TaskPriorityType;
+interface EditorCardPriorityProps {
+  onChange: (priority: CardPriorityType) => void;
+  initialValue: CardPriorityType;
 }
 
-const EditorTaskPriority = ({
+const EditorCardPriority = ({
   onChange,
   initialValue,
-}: EditorTaskPriorityProps) => {
+}: EditorCardPriorityProps) => {
   const [selectedPridority, setSelectedPridority] = useState(initialValue);
-  const onPriorityButtonClick = (priority: TaskPriorityType) => {
+  const onPriorityButtonClick = (priority: CardPriorityType) => {
     setSelectedPridority(priority);
     onChange(priority);
   };
@@ -32,7 +32,7 @@ const EditorTaskPriority = ({
             className={`rounded text-sm w-fit border px-1.5 font-semibold ${selectedPriorityClassNameList[index]}`}
             key={`editor-priority-${index}`}
             onClick={() =>
-              onPriorityButtonClick((index + 1) as TaskPriorityType)
+              onPriorityButtonClick((index + 1) as CardPriorityType)
             }
           >
             {priorityNameList[index]}
@@ -42,7 +42,7 @@ const EditorTaskPriority = ({
             className={`rounded text-black border border-gray-400 text-sm w-fit px-1.5`}
             key={`editor-priority-${index}`}
             onClick={() =>
-              onPriorityButtonClick((index + 1) as TaskPriorityType)
+              onPriorityButtonClick((index + 1) as CardPriorityType)
             }
           >
             {priorityNameList[index]}
@@ -53,4 +53,4 @@ const EditorTaskPriority = ({
   );
 };
 
-export default EditorTaskPriority;
+export default EditorCardPriority;

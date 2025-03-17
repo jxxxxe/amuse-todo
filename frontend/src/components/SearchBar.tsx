@@ -13,7 +13,7 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
   };
 
   return (
-    <div className="flex w-full max-w-[57rem] border-b border-b-gray-300 py-3 gap-2">
+    <div className="flex w-full max-w-[30rem] border-b border-b-gray-300 py-3 gap-2">
       <MagnifyingGlassIcon className="size-6 " />
       <input
         onChange={onChange}

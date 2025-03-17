@@ -5,6 +5,11 @@ import { IColumn, ICard } from "../../types";
 import useCardStore from "../../stores/useCardStore";
 import Card from "./Card";
 import CardEditor from "../CardEditor";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { useDroppable } from "@dnd-kit/core";
 
 interface ColumnProps {
   columnInfo: IColumn;
@@ -15,6 +20,10 @@ const StateColumn = ({ columnInfo, searchWord }: ColumnProps) => {
   const [viewedCardList, setViewedCardList] = useState(columnInfo.cardList);
   const [isNewCardAdding, setIsNewCardAdding] = useState(false);
   const { addCard } = useCardStore();
+  const { setNodeRef } = useDroppable({
+    id: columnInfo.id,
+    data: { columnId: columnInfo.id },
+  });
 
   const createCard = (newCard: ICard) => {
     addCard(columnInfo.id, newCard);
@@ -33,22 +42,31 @@ const StateColumn = ({ columnInfo, searchWord }: ColumnProps) => {
   }, [columnInfo]);
 
   return (
-    <div className="flex flex-col gap-5 mt-5 w-full">
-      <div className="flex justify-between text-gray-500 px-1">
-        <span className="text-sm">{columnInfo.state}</span>
+    <div
+      ref={setNodeRef}
+      className="flex flex-col gap-5 mt-5 w-full items-center flex-1 max-w-[25rem]"
+    >
+      <div className="flex self-end text-gray-500 px-1">
         <CardSortButton columnId={columnInfo.id} />
       </div>
-      <div className="flex flex-col gap-5">
-        {viewedCardList?.map((card, index) => (
-          <Card
-            key={`card-${columnInfo.state}-${index}`}
-            columnId={columnInfo.id}
-            cardInfo={card}
-          />
-        ))}
-        {isNewCardAdding && <CardEditor saveCard={createCard} />}
-      </div>
-      <CardAddButton onClick={() => setIsNewCardAdding(true)} />
+      <SortableContext
+        items={viewedCardList?.map((card) => card.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        <div className="flex flex-col gap-5 h-full w-full items-center">
+          <div className="flex flex-col gap-5 w-full items-center">
+            {viewedCardList?.map((card, index) => (
+              <Card
+                key={`card-${columnInfo.state}-${index}`}
+                columnId={columnInfo.id}
+                cardInfo={card}
+              />
+            ))}
+            {isNewCardAdding && <CardEditor saveCard={createCard} />}
+          </div>
+          <CardAddButton onClick={() => setIsNewCardAdding(true)} />
+        </div>
+      </SortableContext>
     </div>
   );
 };

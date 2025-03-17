@@ -7,7 +7,6 @@ export async function GET() {
         cardList: true,
       },
     });
-
     return Response.json(columnList);
   } catch {
     return new Response(null, {

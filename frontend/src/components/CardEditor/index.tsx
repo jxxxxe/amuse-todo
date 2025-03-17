@@ -11,17 +11,16 @@ interface CardEditor {
   saveCard: (newCard: ICard) => void;
 }
 
-const defaultCardInfo = {
-  id: Math.random(),
-  title: "",
-  priority: 1 as CardPriorityType,
-  memberList: [],
-  startDate: new Date(),
-  endDate: new Date(),
-};
-
-const CardEditor = ({ cardInfo = defaultCardInfo, saveCard }: CardEditor) => {
-  const [newCardInfo, setNewCardInfo] = useState(cardInfo);
+export const CardEditor = ({ cardInfo, saveCard }: CardEditor) => {
+  const DEFAULT_CARD = {
+    id: Math.round(Math.random() * 10000),
+    title: "",
+    priority: 1 as CardPriorityType,
+    memberList: [],
+    startDate: new Date(),
+    endDate: new Date(),
+  };
+  const [newCardInfo, setNewCardInfo] = useState(cardInfo ?? DEFAULT_CARD);
 
   const onSaveNewCard = () => {
     saveCard(newCardInfo);
@@ -58,7 +57,7 @@ const CardEditor = ({ cardInfo = defaultCardInfo, saveCard }: CardEditor) => {
   return (
     <div
       ref={editorRef}
-      className="bg-white max-w-70 h-40 *:flex *:gap-2 *:items-center flex flex-col text-black rounded-xl p-4 gap-3"
+      className="bg-white max-w-100 w-full h-40 *:flex *:gap-2 *:items-center flex flex-col text-black rounded-xl p-4 gap-3"
     >
       <div className="flex gap-1">
         <ItalicIcon className="size-5" />

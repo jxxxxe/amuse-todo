@@ -11,12 +11,14 @@ interface UpdateAndDeleteButtonProps {
   columnId: number;
   cardId: number;
   changeCardToEditor: () => void;
+  preventDrag: () => void;
 }
 
 const UpdateAndDeleteButton = ({
   columnId,
   cardId,
   changeCardToEditor,
+  preventDrag,
 }: UpdateAndDeleteButtonProps) => {
   const { deleteCard } = useCardStore();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -25,7 +27,7 @@ const UpdateAndDeleteButton = ({
   );
 
   const togglePopover = () => {
-    setIsPopoverOpen((state) => !state);
+    setIsPopoverOpen((prev) => !prev);
   };
 
   const onUpdateButtonClick = () => {
@@ -39,14 +41,14 @@ const UpdateAndDeleteButton = ({
   };
 
   return (
-    <div className="flex relative">
+    <div className="flex relative" onMouseOver={preventDrag}>
       <button onClick={togglePopover}>
         <EllipsisVerticalIcon className="size-4" />
       </button>
       {isPopoverOpen && (
         <div
           ref={popoverRef}
-          className="absolute w-25 top-full *:hover:bg-gray-100 divide-gray-100 divide-y flex *:p-2 *:flex *:gap-1 *:items-center flex-col rounded border border-gray-300 bg-white"
+          className="absolute w-25  left-full *:hover:bg-gray-100 divide-gray-100 divide-y flex *:p-2 *:flex *:gap-1 *:items-center flex-col rounded border border-gray-300 bg-white"
         >
           <button onClick={onUpdateButtonClick}>
             <PencilIcon className="size-5" />

@@ -1,9 +1,19 @@
 import { create } from "zustand";
 import { IColumn, ICard } from "../types";
 import apiFetch from "../utils/apiFetch";
+import { DEFAULT_COLUMN_LIST } from "../constants";
 
-const useCardStore = create<CardStore>((set) => ({
-  cardColumnList: [],
+const useCardStore = create<CardStore>((set, get) => ({
+  cardColumnList: DEFAULT_COLUMN_LIST,
+  currentSortIndex: 0,
+  serCurrentSortIndex: (index) => {
+    if (index < 0 || index > 4) {
+      return;
+    }
+    set(() => ({
+      currentSortIndex: index,
+    }));
+  },
   setCardColumnList: (newColumnList) =>
     set(() => ({
       cardColumnList: newColumnList,
@@ -49,8 +59,7 @@ const useCardStore = create<CardStore>((set) => ({
     await apiFetch("api/card", {
       method: "PUT",
       body: JSON.stringify({
-        cardId,
-        newCard: newCardInfo,
+        newCardList: get().cardColumnList[0].cardList,
       }),
     });
   },
@@ -70,11 +79,28 @@ const useCardStore = create<CardStore>((set) => ({
         cardColumnList: newColumnList,
       };
     });
-    await apiFetch("api/card", {
+    await apiFetch(`api/card/${cardId}`, {
       method: "DELETE",
       body: JSON.stringify({
         cardId,
       }),
+    });
+  },
+  sortCardByDB: async (columnId) => {
+    const columnInfo = await apiFetch(`api/column/${columnId}`);
+
+    set(({ cardColumnList }) => {
+      const newCardColumnList = cardColumnList.map((column) =>
+        column.id === columnId
+          ? {
+              ...column,
+              cardList: columnInfo.cardList.reverse(),
+            }
+          : column
+      );
+      return {
+        cardColumnList: newCardColumnList,
+      };
     });
   },
   sortCardByName: (columnId) =>
@@ -166,10 +192,13 @@ const useCardStore = create<CardStore>((set) => ({
 
 interface CardStore {
   cardColumnList: IColumn[];
+  currentSortIndex: number;
+  serCurrentSortIndex: (index: number) => void;
   setCardColumnList: (newColumnList: IColumn[]) => void;
   addCard: (columnId: number, newCard: ICard) => void;
   updateCard: (columnId: number, cardId: number, newCardInfo: ICard) => void;
   deleteCard: (columnId: number, cardId: number) => void;
+  sortCardByDB: (columnId: number) => void;
   sortCardByName: (columnId: number) => void;
   sortCardByPriority: (columnId: number) => void;
   sortCardByStartDate: (columnId: number) => void;

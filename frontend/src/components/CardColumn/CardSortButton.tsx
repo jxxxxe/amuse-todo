@@ -11,9 +11,10 @@ const CardSortButton = ({ columnId }: CardSortButtonProps) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const sortRef = useClickAway<HTMLDivElement>(() => setIsPopoverOpen(false));
   const sortNameList = ["기본순", "이름순", "중요도순", "시작일순", "종료일순"];
-  const [currentSortIndex, setCurrentSortIndex] = useState(0);
+  const { currentSortIndex, serCurrentSortIndex } = useCardStore();
 
   const {
+    sortCardByDB,
     sortCardByName,
     sortCardByPriority,
     sortCardByStartDate,
@@ -25,7 +26,9 @@ const CardSortButton = ({ columnId }: CardSortButtonProps) => {
   };
 
   const sortList = (index: number) => {
-    if (index === 1) {
+    if (index === 0) {
+      sortCardByDB(columnId);
+    } else if (index === 1) {
       sortCardByName(columnId);
     } else if (index === 2) {
       sortCardByPriority(columnId);
@@ -34,7 +37,7 @@ const CardSortButton = ({ columnId }: CardSortButtonProps) => {
     } else if (index === 4) {
       sortCardByEndDate(columnId);
     }
-    setCurrentSortIndex(index);
+    serCurrentSortIndex(index);
     setIsPopoverOpen(false);
   };
 

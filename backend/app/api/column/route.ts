@@ -1,11 +1,17 @@
 import prisma from "@/app/utils/prisma";
 
 export async function GET() {
-  const columnList = await prisma.column.findMany({
-    include: {
-      cardList: true,
-    },
-  });
+  try {
+    const columnList = await prisma.column.findMany({
+      include: {
+        cardList: true,
+      },
+    });
 
-  return Response.json(columnList);
+    return Response.json(columnList);
+  } catch {
+    return new Response(null, {
+      status: 404,
+    });
+  }
 }

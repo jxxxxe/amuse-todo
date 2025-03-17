@@ -30,10 +30,12 @@ const UpdateAndDeleteButton = ({
 
   const onUpdateButtonClick = () => {
     changeCardToEditor();
+    setIsPopoverOpen(false);
   };
 
   const onDeleteButtonClick = () => {
     deleteCard(columnId, cardId);
+    setIsPopoverOpen(false);
   };
 
   return (

@@ -127,7 +127,8 @@ const useCardStore = create<CardStore>((set) => ({
       const sortedColumn = cardColumnList.map((column) => {
         if (column.id === columnId) {
           const sortedCardList = column?.cardList.sort(
-            (a, b) => a.startDate.getTime() - b.startDate.getTime()
+            (a, b) =>
+              new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
           );
           return {
             ...column,
@@ -146,7 +147,8 @@ const useCardStore = create<CardStore>((set) => ({
       const sortedColumn = cardColumnList.map((column) => {
         if (column.id === columnId) {
           const sortedCardList = column?.cardList.sort(
-            (a, b) => a.endDate.getTime() - b.endDate.getTime()
+            (a, b) =>
+              new Date(a.endDate).getTime() - new Date(b.endDate).getTime()
           );
           return {
             ...column,

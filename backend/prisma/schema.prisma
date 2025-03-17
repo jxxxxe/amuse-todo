@@ -20,10 +20,9 @@ model User {
   password      String
   created_at    DateTime  @default(now())
   updated_at    DateTime  @updatedAt
-  card_created  Card?     @relation("card_created")
-  card_assigned Card?     @relation("card_assigned", fields: [cardId], references: [id])
-  cardId        Int?
-  Comment       Comment[]
+  commentList   Comment[]
+  card_created  Card[]    @relation("card_created")
+  card_assigned Card[]    @relation("card_assigned")
 }
 
 model Column {
@@ -36,19 +35,19 @@ model Column {
 }
 
 model Card {
-  id          Int       @id @default(autoincrement())
-  title       String    @default("")
-  priority    Int       @default(1)
-  memberList  User[]    @relation("card_assigned")
-  description String    @default("")
-  commentList Comment[]
-  startDate   DateTime  @default(now())
-  endDate     DateTime  @default(now())
+  id               Int       @id @default(autoincrement())
+  title            String    @default("")
+  priority         Int       @default(1)
+  description      String    @default("")
+  startDate        DateTime  @default(now())
+  endDate          DateTime  @default(now())
+  commentList      Comment[]
+  assignedUserList User[]    @relation("card_assigned")
 
   column    Column @relation(fields: [columnId], references: [id])
   columnId  Int
   creator   User   @relation("card_created", fields: [creatorId], references: [id])
-  creatorId Int    @unique
+  creatorId Int
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

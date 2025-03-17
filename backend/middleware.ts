@@ -6,9 +6,9 @@ export function middleware() {
   // CORS 헤더 추가
   response.headers.set(
     "Access-Control-Allow-Origin",
-    "https://amuse-todo.vercel.app/"
+    process.env.FRONTEND_ORIGIN_URL!
   );
-  response.headers.set("Access-Control-Allow-Origin", "http://localhost:5173");
+
   response.headers.set(
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE"

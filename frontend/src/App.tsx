@@ -30,11 +30,11 @@ function App() {
     apiFetch("api/column")
       .then((data) => {
         setCardColumnList(data);
+        setIsFetchLoading(false);
       })
       .catch(() => {
         console.error("Failed to fetch column data");
       });
-    setIsFetchLoading(false);
   }, [setCardColumnList]);
 
   return (

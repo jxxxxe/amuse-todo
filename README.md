@@ -34,16 +34,17 @@
 </br>
 
 ## ❔ 구동 방법
-해당 프로젝트로 이동 후(`cd amuse-todo`) 두 서버 동시에 실행
+### 1. 해당 프로젝트 위치로 이동
+### 2. 두 서버 동시에 실행
 - Frontend
 ```
-cd frontend && PORT=5173 npm run dev
+cd frontend && npm i && PORT=5173 npm run dev
 ```
 - Backend
 ```
-cd backend && PORT=3001 npm run dev
+cd backend && npm i && PORT=3001 npm run dev
 ```
-
+### 3. http://localhost:5173/ 접속
 </br>
 
 

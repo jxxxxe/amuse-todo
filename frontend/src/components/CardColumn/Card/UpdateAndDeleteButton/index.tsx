@@ -12,6 +12,7 @@ interface UpdateAndDeleteButtonProps {
   cardId: number;
   changeCardToEditor: () => void;
   preventDrag: () => void;
+  allowDrag: () => void;
 }
 
 const UpdateAndDeleteButton = ({
@@ -19,6 +20,7 @@ const UpdateAndDeleteButton = ({
   cardId,
   changeCardToEditor,
   preventDrag,
+  allowDrag,
 }: UpdateAndDeleteButtonProps) => {
   const { deleteCard } = useCardStore();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -41,7 +43,11 @@ const UpdateAndDeleteButton = ({
   };
 
   return (
-    <div className="flex relative" onMouseOver={preventDrag}>
+    <div
+      className="flex relative"
+      onMouseOver={preventDrag}
+      onMouseLeave={allowDrag}
+    >
       <button onClick={togglePopover}>
         <EllipsisVerticalIcon className="size-4" />
       </button>

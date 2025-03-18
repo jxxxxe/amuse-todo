@@ -52,7 +52,10 @@ const Card = ({ columnId, cardInfo }: CardProps) => {
           columnId={columnId}
           cardId={cardInfo.id}
           changeCardToEditor={() => setIsCardUpdating(true)}
-          preventDrag={() => setIsDragDisabled(true)}
+          preventDrag={() => {
+            setIsDragDisabled(true);
+          }}
+          allowDrag={() => setIsDragDisabled(false)}
         />
       </div>
       <div className="font-semibold flex-1">{cardInfo.title}</div>

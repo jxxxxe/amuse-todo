@@ -94,7 +94,7 @@ const useCardStore = create<CardStore>((set, get) => ({
         column.id === columnId
           ? {
               ...column,
-              cardList: columnInfo.cardList.reverse(),
+              cardList: columnInfo.cardList,
             }
           : column
       );
